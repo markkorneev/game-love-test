@@ -12,15 +12,16 @@ function player.load()
 		left = "left",
 		fire = " "
 	}
-	player.fire = function()
-		if player.cd <= 0 then
-			player.cd = 10
-			bullet = {}
-			bullet.x = player.x + 95
-			bullet.y = player.y
-			bullet.sp = 1000
-			table.insert(player.bullets, bullet)
-		end
+end
+
+function player.fire()
+	if player.cd <= 0 then
+		player.cd = 10
+		bullet = {}
+		bullet.x = player.x + 95
+		bullet.y = player.y
+		bullet.sp = 1000
+		table.insert(player.bullets, bullet)
 	end
 end
 

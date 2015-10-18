@@ -1,25 +1,24 @@
-require "objects/player"
-require "objects/enemy"
-require "keybind"
+local LevelFirst = require "levels/level_1"
+
+local curLevel = nil
 
 function love.load()
 	love.graphics.getBackgroundColor(0,0,0)
+	love.mouse.setVisible(false)
 	
-	-- Loading Classes
-	player.load()
-	enemy.load()
-	keybind.load()
+	curLevel = LevelFirst.new()
 end
 
 function love.update(dt)
-	UPDATE_PLAYER(dt)
-	UPDATE_ENEMY(dt)
-	UPDATE_KEYBIND(dt)
 	
-	love.mouse.setVisible(false)
+	-- Game exit
+	if love.keyboard.isDown("escape") then
+		love.event.quit()
+	end
+	
+	curLevel:update(dt)
 end
 
 function love.draw()
-	DRAW_PLAYER()
-	DRAW_ENEMY()
+	curLevel:draw()
 end
