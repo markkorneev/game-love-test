@@ -1,2 +1,4 @@
 *.swp
 love_conf_default
+.cs_workspaces
+build
