@@ -1,17 +1,24 @@
+
 local Element = require "prototypes/element"
 
-local Player = {}
+local Player = {
+	speed = 500,
+	isControlsEnabled = false,
+}
 
 setmetatable(Player, { __index = Element })
 
-function Player.new(opts)
-	opts = opts or {}
+function Player.new(inputOpts)
 	
-	if not opts.sprite then
-		opts.sprite = "player"
-	end
+	local opts = inputOpts or {}
+	
+	opts.sprite = opts.sprite or "player"
 	
 	local instance = Element.new( opts )
+	
+	if opts.isControlsEnabled then
+		instance.isControlsEnabled = opts.isControlsEnabled
+	end
 	
 	-- instance properties
 	
@@ -21,6 +28,21 @@ end
 
 function Player:update(dt)
 	Element.update(self, dt)
+	
+	if self.isControlsEnabled then
+		if love.keyboard.isDown("left") then
+			self:relX(-(self.speed * dt))
+		end
+		if love.keyboard.isDown("right") then
+			self:relX(self.speed * dt)
+		end
+		if love.keyboard.isDown("up") then
+			self:relY(-(self.speed * dt))
+		end
+		if love.keyboard.isDown("down") then
+			self:relY(self.speed * dt)
+		end
+	end
 end
 
 function Player:draw()

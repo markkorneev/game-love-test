@@ -1,4 +1,22 @@
-local Element = {}
+
+local Element = {
+	
+	isVisible = true,
+	
+	x = 0,
+	y = 0,
+	
+	speed = 0,
+	
+	rotate = 0,
+	
+	originX = 50,
+	originY = 50,
+	
+	camera = nil,
+	
+	depth = 10,
+}
 
 --[[
 	`sprite` is required
@@ -7,35 +25,58 @@ function Element.new(opts)
 	
 	local instance = {}
 	
+	setmetatable(instance, { __index = Element })
 	
 	-- instance properties
 	
-	instance.isVisible = true
+	if opts.isVisible then instance.isVisible = opts.isVisible end
 	
-	instance.x = opts.y or 0
-	instance.y = opts.x or 0
+	if opts.x then instance.x = opts.x end
+	if opts.y then instance.y = opts.y end
 	
-	instance.speed = opts.speed or 0
+	if opts.speed then instance.speed = opts.speed end
 	
 	instance.sprite = love.graphics.newImage(
 		"sprites/" .. opts.sprite .. ".png"
 	)
 	
-	instance.rotate = opts.rotate or 0 -- radians
+	-- radians
+	if opts.rotate then instance.rotate = opts.rotate end
 	
-	instance.originX = opts.originX or 50
-	instance.originY = opts.originY or 50
+	if opts.originX then instance.originX = opts.originX end
+	if opts.originY then instance.originY = opts.originY end
 	
-	instance.camera = opts.camera or nil
+	if opts.camera then instance.camera = opts.camera end
 	
+	if opts.depth then instance.depth = opts.depth end
 	
-	setmetatable(instance, { __index = Element })
 	return instance
 end
 
-function Element:setPos(x, y)
+function Element:absPos(x, y)
 	self.x = x
 	self.y = y
+end
+
+function Element:absX(x)
+	self.x = x
+end
+
+function Element:absY(y)
+	self.y = y
+end
+
+function Element:relPos(x, y)
+	self.x = self.x + x
+	self.y = self.y + y
+end
+
+function Element:relX(x)
+	self.x = self.x + x
+end
+
+function Element:relY(y)
+	self.y = self.y + y
 end
 
 function Element:update(dt)
@@ -63,7 +104,7 @@ function Element:draw()
 		
 		-- origin offset
 		(self.originX * self.sprite:getWidth()  / 100),
-		(self.originY * self.sprite:getHeight() / 100) 
+		(self.originY * self.sprite:getHeight() / 100)
 	)
 end
 

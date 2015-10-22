@@ -21,20 +21,28 @@ function LevelFirst.new()
 	
 	for i,v in ipairs(monsters) do
 		local monster = Monster.new()
-		monsert.setPos(v.x, v.y)
+		monsert.absPos(v.x, v.y)
 		instance:addElement(monster)
 	end
 	]]--
 	
-	instance.player = Player.new({ camera = instance.camera })
+	instance.player = Player.new({
+		camera = instance.camera,
+		isControlsEnabled = true
+	})
 	instance:addElement(instance.player)
+	
+	-- test element
+	instance.player2 = Player.new({ camera = instance.camera })
+	instance.player2:absPos(-200, -200)
+	instance:addElement(instance.player2)
 	
 	return instance
 end
 
 function LevelFirst:update(dt)
-	self.camera:followY(self.player.y, 95)
 	Level.update(self, dt)
+	self.camera:followY(self.player.y, 95)
 end
 
 function LevelFirst:draw()

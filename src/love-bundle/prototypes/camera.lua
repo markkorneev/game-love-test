@@ -1,6 +1,8 @@
+
 local Camera = {}
 
 function Camera.new()
+	
 	local instance = {}
 	
 	-- instance properties
